@@ -12,7 +12,7 @@ img = cv.imread('shapes.png')
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
 # threshold of gray image
-_, threshold = cv.threshold(gray, 127, 255, cv.THRESH_BINARY_INV)
+_, threshold = cv.threshold(gray, 127, 255, cv.THRESH_BINARY)
 
 # find contour
 contours, _ = cv.findContours(threshold, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
@@ -24,7 +24,7 @@ for contour in contours:
         flag = 1
         continue
 
-      # initializ the shape name and approximate the contour
+    # initializ the shape name and approximate the contour
     perimeter = cv.arcLength(contour, True)
     approximate = cv.approxPolyDP(contour, 0.01 * perimeter, True)
 

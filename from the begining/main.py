@@ -1,3 +1,5 @@
+
+from myClass import Human
 import cv2 as cv
 import numpy as np
 
@@ -76,10 +78,164 @@ for i in range(studentNum):
 print(students)
 '''
 
-img = cv.imread('ball.png', 0)
+'''img = cv.imread('Aboutrika.png', cv.IMREAD_GRAYSCALE)
 
-cv.namedWindow('image', cv.WINDOW_NORMAL)
-cv.imshow('image', img)
+cv.imshow('Trika', img)
+
+k = cv.waitKey(0)
+
+if k == 27:
+    cv.destroyAllWindows()
+elif k == ord('s'):
+    cv.imwrite('majico.png', img)
+    cv.destroyAllWindows()
+'''
+'''
+cap = cv.VideoCapture(0)
+
+while True:
+    ret, frame = cap.read()
+
+    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+
+    cv.imshow('frame', frame)
+
+    if cv.waitKey(1) == ord('q'):
+        break
+
+cv.destroyAllWindows()
+'''
+
+'''img = np.zeros((512, 512, 3), np.uint8)
+
+pts = np.array([[10, 5], [20, 30], [70, 20], [50, 10]], np.int32)
+pts = pts.reshape((-1, 1, 2))
+cv.polylines(img, [pts], True, (0, 255, 255))
+
+cv.imshow('img', img)
+
 
 cv.waitKey()
+cv.destroyAllWindows()
+'''
+
+'''x = np.uint8([250])
+y = np.uint8([10])
+
+print(cv.add(x, y))
+
+print(x + y)'''
+
+'''img = cv.imread('Aboutrika.png')
+
+_, thresh = cv.threshold(img, 200, 255, cv.THRESH_BINARY)
+
+cv.imshow('thresh', thresh)
+
+
+cv.waitKey(0)
+cv.destroyAllWindows()
+'''
+
+'''
+def read():
+    username = input('Please enter user name : ')
+    password = int(input('Please enter the password : '))
+
+    return username, password
+
+
+def verify(username, password, database):
+    if username in database:
+        p = database[username]
+        if password == p:
+            return 'Access Accepted'
+        else:
+            return 'Incorrect Password'
+    else:
+        return 'Error 404 Not Found'
+
+
+def printMessage(message):
+    print(message)
+
+
+database = {
+    'Hazem': 123,
+    'Mohamed': 456,
+    'zezo': 789
+}
+
+username, password = read()
+
+res = verify(username, password, database)
+
+print(res)
+'''
+'''
+h1 = Human()
+h2 = Human()
+
+
+h1.readData()
+h1.printData()
+'''
+
+'''
+cap = cv.VideoCapture(0)
+_, f = cap.read()
+
+avg1 = np.float32(f)
+avg2 = np.float32(f)
+
+while True:
+    _, f = cap.read()
+
+    if f is not None:
+        f = np.float32(f)
+        grayFrame = cv.cvtColor(f, cv.COLOR_BGR2GRAY)
+        cv.accumulateWeighted(f, avg1, 1)
+        res1 = cv.convertScaleAbs(avg1)
+        grayAvg = cv.cvtColor(avg1, cv.COLOR_BGR2GRAY)
+        difference = cv.absdiff(grayFrame, grayAvg)
+        
+
+        cv.imshow('img', f)
+        cv.imshow('avg1', res1)
+        cv.imshow('diif', difference)
+
+        if cv.waitKey(20) == 27:
+            break
+
+cv.destroyAllWindows()
+'''
+
+# Face detection
+faceCascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
+eyeCascade = cv.CascadeClassifier('haarcascade_eye.xml')
+
+cap = cv.VideoCapture(0)
+
+while True:
+    _, img = cap.read()
+    imgGray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+    faces = faceCascade.detectMultiScale(imgGray, 1.3, 5)
+
+    print(f'found {len(faces)} face(s) ')
+
+    for (x, y, w, h) in faces:
+        cv.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        regionGray = imgGray[y:y+h, x:x+w]
+        regionColor = img[y:y+h, x:x+w]
+        eyes = eyeCascade.detectMultiScale(regionGray)
+        for (ex, ey, ew, eh) in eyes:
+            cv.rectangle(regionColor, (ex, ey),
+                         (ex + ew, ey + eh), (0, 255, 0), 2)
+
+    cv.imshow('window', img)
+
+    if cv.waitKey(20) == 27:
+        break
+
 cv.destroyAllWindows()

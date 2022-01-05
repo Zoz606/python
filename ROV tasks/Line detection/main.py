@@ -2,7 +2,7 @@ import ColourDetector as cd
 import cv2 as cv
 import numpy as np
 
-
+'''
 img = cv.imread('1.jpg')
 
 lowerRed = np.array([0, 0, 0])
@@ -20,10 +20,10 @@ for line in lines:
 
 cv.imshow('img', img)
 cv.waitKey(0)
-cv.destroyAllWindows()
+cv.destroyAllWindows()'''
 
 
-'''cap = cv.VideoCapture('road_car_view.mp4')
+cap = cv.VideoCapture('road_car_view.mp4')
 while True:
     
     _,frame = cap.read() 
@@ -46,7 +46,7 @@ while True:
         break
 
 cv.destroyAllWindows()
-'''
+
 '''
 
 lines = cv.HoughLinesP(edges, 1, np.pi/180, 100, maxLineGap = 50)

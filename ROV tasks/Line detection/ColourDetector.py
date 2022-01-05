@@ -11,15 +11,17 @@ class DetectColour:
         self.upper_colour = np.array(colourhigh)
         # tolerance to adjust the area of the contours we need to get
         self.tolerance = tolerance
+        
+        self.mask
 
     def _getcontours(self, img1):
         # read the image as hsv
         self.hsv = cv2.cvtColor(img1, cv2.COLOR_BGR2HSV)
         # get the mask of the color
-        mask = cv2.inRange(self.hsv, self.lower_colour, self.upper_colour)
+        self.mask = cv2.inRange(self.hsv, self.lower_colour, self.upper_colour)
         # get the gradient of the mask and the image by all ones so we remove any parts black and remains the white
         gradient = cv2.morphologyEx(
-            mask, cv2.MORPH_CLOSE, np.ones((3, 3), np.uint8))
+            self.maskmask, cv2.MORPH_CLOSE, np.ones((3, 3), np.uint8))
         # now we get the contours for any parts white
         contours, hierarchy = cv2.findContours(
             gradient, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -30,7 +32,7 @@ class DetectColour:
                 # append what we need in new list
                 newcontourslist.append(contours[i])
         contours = newcontourslist  # passing the list to contours
-        return contours, mask  # return the contours to athoer function
+        return contours  # return the contours to athoer function
         
         
     def show(self, video, cap):
